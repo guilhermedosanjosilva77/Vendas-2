@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Sair')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('logout')}"></nav>
+<main class="container py-4" style="max-width:520px">
+    <h1 class="page-title h3 mb-3">Sair do sistema</h1>
+    <div class="card card-body">
+        <p class="mb-4">Deseja encerrar a sessão?</p>
+        <!-- O Spring Security trata o POST /logout e redireciona para /login?logout -->
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-primary">Sair</button>
+            <a th:href="@{/}" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

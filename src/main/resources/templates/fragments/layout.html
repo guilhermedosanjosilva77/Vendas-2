@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head(titulo)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,8 +18,9 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" th:classappend="${ativo == 'home'} ? 'active'" th:href="@{/}">Início</a></li>
                 <li class="nav-item"><a class="nav-link" th:classappend="${ativo == 'pedidos'} ? 'active'" th:href="@{/pedidos}">Pedidos</a></li>
-                <li class="nav-item"><a class="nav-link" th:classappend="${ativo == 'clientes'} ? 'active'" th:href="@{/clientes}">Clientes</a></li>
-                <li class="nav-item"><a class="nav-link" th:classappend="${ativo == 'produtos'} ? 'active'" th:href="@{/produtos}">Produtos</a></li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:classappend="${ativo == 'clientes'} ? 'active'" th:href="@{/clientes}">Clientes</a></li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:classappend="${ativo == 'produtos'} ? 'active'" th:href="@{/produtos}">Produtos</a></li>
+                <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link" th:classappend="${ativo == 'logout'} ? 'active'" th:href="@{/logout}">Sair</a></li>
             </ul>
         </div>
     </div>

@@ -9,6 +9,25 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/postgres_data
-volumes: 
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U usuario -d sistema_vendas"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: sistema_vendas_app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/sistema_vendas
+      DB_USER: usuario
+      DB_PASSWORD: senha123
+    ports:
+      - "8080:8080"
+
+volumes:
   postgres_data:

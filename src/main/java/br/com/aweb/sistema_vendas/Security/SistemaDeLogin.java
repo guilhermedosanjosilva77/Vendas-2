@@ -28,7 +28,7 @@ public class SistemaDeLogin {
                     // ADMIN e PADRAO: operações de pedidos
                     req.requestMatchers("/pedidos/**").hasAnyRole("ADMIN", "PADRAO");
 
-                    // Demais rotas (ex.: página inicial): qualquer usuário autenticado
+                    // Demais rotas (ex.: página inicial e /acesso-negado): qualquer usuário autenticado
                     req.anyRequest().authenticated();
                 })
                 .formLogin(form -> form
@@ -39,6 +39,8 @@ public class SistemaDeLogin {
                         // POST /logout é tratado pelo Spring (formulário em logout.html)
                         .logoutSuccessUrl("/login?logout")
                         .permitAll())
+                // Usuário logado sem permissão vê a página amigável em vez do erro 403 padrão
+                .exceptionHandling(ex -> ex.accessDeniedPage("/acesso-negado"))
                 .rememberMe(rememberMe -> rememberMe.key("lembrarDeMim"))
                 .build();
     }
