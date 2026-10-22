@@ -39,8 +39,9 @@ public class SistemaDeLogin {
                         // POST /logout é tratado pelo Spring (formulário em logout.html)
                         .logoutSuccessUrl("/login?logout")
                         .permitAll())
-                // Usuário logado sem permissão vê a página amigável em vez do erro 403 padrão
-                .exceptionHandling(ex -> ex.accessDeniedPage("/acesso-negado"))
+                // Sem permissão: redireciona (GET) para uma página com mensagem, em vez de mostrar erro
+                .exceptionHandling(ex -> ex.accessDeniedHandler((request, response, excecao) ->
+                        response.sendRedirect(request.getContextPath() + "/acesso-negado")))
                 .rememberMe(rememberMe -> rememberMe.key("lembrarDeMim"))
                 .build();
     }
